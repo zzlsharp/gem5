@@ -160,7 +160,7 @@ class SimpleThread : public ThreadState, public ThreadContext
 
     std::array<RegFile, CCRegClass + 1> regFiles;
 
-    TheISA::ISA *const isa;    // one "instance" of the current ISA.
+    BaseISA *const isa;    // one "instance" of the current ISA.
 
     std::unique_ptr<PCStateBase> _pcState;
 
