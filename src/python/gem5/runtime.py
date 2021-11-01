@@ -29,47 +29,36 @@ This file contains functions to extract gem5 runtime information.
 """
 
 from m5.defines import buildEnv
+import typing
 
 from .isas import ISA
 from .coherence_protocol import CoherenceProtocol
 
 
-def get_runtime_isa() -> ISA:
-    """Gets the target ISA.
+def get_runtime_isas() -> typing.List[ISA]:
+    """Gets the ISAs gem5 has support for.
     This can be inferred at runtime.
 
-    :returns: The target ISA.
+    :returns: A list of the supported ISAs.
     """
-    isa_map = {
-        "sparc": ISA.SPARC,
-        "mips": ISA.MIPS,
-        "null": ISA.NULL,
-        "arm": ISA.ARM,
-        "x86": ISA.X86,
-        "power": ISA.POWER,
-        "riscv": ISA.RISCV,
-    }
 
+    isas = []
     if buildEnv['USE_ARM_ISA']:
-        isa_str = 'arm'
-    elif buildEnv['USE_MIPS_ISA']:
-        isa_str = 'mips'
-    elif buildEnv['USE_POWER_ISA']:
-        isa_str = 'power'
-    elif buildEnv['USE_RISCV_ISA']:
-        isa_str = 'riscv'
-    elif buildEnv['USE_SPARC_ISA']:
-        isa_str = 'sparc'
-    elif buildEnv['USE_X86_ISA']:
-        isa_str = 'x86'
-    elif buildEnv['USE_NULL_ISA']:
-        isa_str = 'null'
-    if isa_str not in isa_map.keys():
-        raise NotImplementedError(
-            "ISA '" + isa_str + "' not recognized."
-        )
+        isas.append(ISA.ARM)
+    if buildEnv['USE_MIPS_ISA']:
+        isas.append(ISA.MIPS)
+    if buildEnv['USE_NULL_ISA']:
+        isas.append(ISA.NULL)
+    if buildEnv['USE_POWER_ISA']:
+        isas.append(ISA.POWER)
+    if buildEnv['USE_RISCV_ISA']:
+        isas.append(ISA.RISCV)
+    if buildEnv['USE_SPARC_ISA']:
+        isas.append(ISA.SPARC)
+    if buildEnv['USE_X86_ISA']:
+        isas.append(ISA.X86)
 
-    return isa_map[isa_str]
+    return isas
 
 
 def get_runtime_coherence_protocol() -> CoherenceProtocol:
