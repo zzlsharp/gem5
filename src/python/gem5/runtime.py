@@ -50,10 +50,23 @@ def get_runtime_isa() -> ISA:
         "riscv": ISA.RISCV,
     }
 
-    isa_str = str(buildEnv["TARGET_ISA"]).lower()
+    if buildEnv['USE_ARM_ISA']:
+        isa_str = 'arm'
+    elif buildEnv['USE_MIPS_ISA']:
+        isa_str = 'mips'
+    elif buildEnv['USE_POWER_ISA']:
+        isa_str = 'power'
+    elif buildEnv['USE_RISCV_ISA']:
+        isa_str = 'riscv'
+    elif buildEnv['USE_SPARC_ISA']:
+        isa_str = 'sparc'
+    elif buildEnv['USE_X86_ISA']:
+        isa_str = 'x86'
+    elif buildEnv['USE_NULL_ISA']:
+        isa_str = 'null'
     if isa_str not in isa_map.keys():
         raise NotImplementedError(
-            "ISA '" + buildEnv["TARGET_ISA"] + "' not recognized."
+            "ISA '" + isa_str + "' not recognized."
         )
 
     return isa_map[isa_str]

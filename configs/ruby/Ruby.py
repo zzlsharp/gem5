@@ -277,6 +277,6 @@ def send_evicts(options):
     # 2. The x86 mwait instruction is built on top of coherence invalidations
     # 3. The local exclusive monitor in ARM systems
     if options.cpu_type == "DerivO3CPU" or \
-       buildEnv['TARGET_ISA'] in ('x86', 'arm'):
+       buildEnv['USE_X86_ISA'] or buildEnv['USE_ARM_ISA']:
         return True
     return False

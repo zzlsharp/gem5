@@ -736,7 +736,21 @@ Build variables for {dir}:
     if env['USE_EFENCE']:
         env.Append(LIBS=['efence'])
 
-    if env['KVM_ISA'] != env['TARGET_ISA']:
+    if env['USE_ARM_ISA']:
+        isa = 'arm'
+    elif env['USE_MIPS_ISA']:
+        isa = 'mips'
+    elif env['USE_POWER_ISA']:
+        isa = 'power'
+    elif env['USE_RISCV_ISA']:
+        isa = 'riscv'
+    elif env['USE_SPARC_ISA']:
+        isa = 'sparc'
+    elif env['USE_X86_ISA']:
+        isa = 'x86'
+    elif env['USE_NULL_ISA']:
+        isa = 'null'
+    if env['KVM_ISA'] != isa:
         env['USE_KVM'] = False
 
     # Save sticky variable settings back to current variables file

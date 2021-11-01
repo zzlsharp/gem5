@@ -101,7 +101,7 @@ def config_cache(options, system):
         dcache_class, icache_class, l2_cache_class, walk_cache_class = \
             L1_DCache, L1_ICache, L2Cache, None
 
-        if buildEnv['TARGET_ISA'] in ['x86', 'riscv']:
+        if buildEnv['USE_X86_ISA'] or buildEnv['USE_RISCV_ISA']:
             walk_cache_class = PageTableWalkerCache
 
     # Set the cache line size of the system
@@ -174,7 +174,8 @@ def config_cache(options, system):
             # on these names.  For simplicity, we would advise configuring
             # it to use this naming scheme; if this isn't possible, change
             # the names below.
-            if buildEnv['TARGET_ISA'] in ['x86', 'arm', 'riscv']:
+            if buildEnv['USE_X86_ISA'] or buildEnv['USE_ARM_ISA'] or \
+                    buildEnv['USE_RISCV_ISA']:
                 system.cpu[i].addPrivateSplitL1Caches(
                         ExternalCache("cpu%d.icache" % i),
                         ExternalCache("cpu%d.dcache" % i),
